@@ -28,6 +28,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more!!! v3
       </p>
+      <h1>version 2 added</h1>
     </>
   )
 }
