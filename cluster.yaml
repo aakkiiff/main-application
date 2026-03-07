@@ -5,8 +5,8 @@ metadata:
   region: ap-south-1
 nodeGroups:
   - name: nodegroup1
-    instanceType: t3.medium
-    desiredCapacity: 1
+    instanceType: t3.large
+    desiredCapacity: 2
     volumeSize: 20
     ssh:
       allow: false
