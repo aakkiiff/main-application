@@ -14,7 +14,11 @@ pipeline {
                 sh 'docker build -t ${DOCKERHUB_USERNAME}/${DOCKERHUB_REPO_NAME}:${IMAGE_TAG} .'
             }
         }
-
+        stage('image scanning') {
+            steps {
+                sh 'trivy image --exit-code 1 --severity CRITICAL ${DOCKERHUB_USERNAME}/${DOCKERHUB_REPO_NAME}:${IMAGE_TAG}'
+            }
+        }
         stage('DOCKER LOGIN + PUSH') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'uname')]) {
