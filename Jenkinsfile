@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_TAG = "${BUILD_NUMBER}"
-        DOCKERHUB_USERNAME = "aakkiiff"
+        IMAGE_TAG           = "${BUILD_NUMBER}"
+        DOCKERHUB_USERNAME  = "aakkiiff"
         DOCKERHUB_REPO_NAME = "jenkinstest"
     }
 
@@ -14,9 +14,9 @@ pipeline {
     triggers {
         GenericTrigger(
             genericVariables: [
-                [key: 'action', value: '$.action'],
-                [key: 'base', value: '$.pull_request.base.ref'],
-                [key: 'head', value: '$.pull_request.head.ref'],
+                [key: 'action',  value: '$.action'],
+                [key: 'base',    value: '$.pull_request.base.ref'],
+                [key: 'head',    value: '$.pull_request.head.ref'],
                 [key: 'success', value: '$.pull_request.merged']
             ],
             token: 'test',
@@ -42,7 +42,13 @@ pipeline {
         stage('DOCKER LOGIN + PUSH') {
             steps {
 
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'uname')]) {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub',
+                        passwordVariable: 'pass',
+                        usernameVariable: 'uname'
+                    )
+                ]) {
                     sh 'echo ${pass} | docker login -u ${uname} --password-stdin'
                 }
 
@@ -59,16 +65,20 @@ pipeline {
 
         stage('trigger next pipeline') {
             steps {
-                build job: 'config-pipeline', parameters: [string(name: 'IMAGE_TAG', value: "${IMAGE_TAG}")]
+                build job: 'config-pipeline',
+                parameters: [
+                    string(name: 'IMAGE_TAG', value: "${IMAGE_TAG}")
+                ]
             }
         }
         
         stage('CLEANING WORKSPACE') {
             steps {
-                script{
+                script {
                     cleanWs()
                 }
             }
         }
+
     }
 }
