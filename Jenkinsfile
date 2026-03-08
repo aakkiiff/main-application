@@ -11,7 +11,7 @@ pipeline {
         SONAR_SCANNER_HOME      = "${HOME}/.sonar/sonar-scanner-${SONAR_SCANNER_VERSION}-linux-x64"
         PATH                    = "${SONAR_SCANNER_HOME}/bin:${PATH}"
         SONAR_HOST_URL          = "http://13.233.124.152:9000"
-        SONAR_TOKEN             = "sqp_bb769152d29694ff6a2121164e449bb021ea4648"
+        SONAR_TOKEN             = "sqp_dbd13de86cec2ce85c59ac7e3b00a15ca1262c0f"
         SONAR_PROJECT_KEY       = "test"
     }
 
