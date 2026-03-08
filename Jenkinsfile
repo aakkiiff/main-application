@@ -5,6 +5,14 @@ pipeline {
         IMAGE_TAG           = "${BUILD_NUMBER}"
         DOCKERHUB_USERNAME  = "aakkiiff"
         DOCKERHUB_REPO_NAME = "jenkinstest"
+
+        // sonar scanner setup
+        SONAR_SCANNER_VERSION   = '7.2.0.5079'
+        SONAR_SCANNER_HOME      = "${HOME}/.sonar/sonar-scanner-${SONAR_SCANNER_VERSION}-linux-x64"
+        PATH                    = "${SONAR_SCANNER_HOME}/bin:${PATH}"
+        SONAR_HOST_URL          = "http://13.233.124.152:9000"
+        SONAR_TOKEN             = "sqp_bb769152d29694ff6a2121164e449bb021ea4648"
+        SONAR_PROJECT_KEY        = "test"
     }
 
     options {
@@ -26,6 +34,19 @@ pipeline {
     }
 
     stages {
+
+        stage('SONARQUBE SCAN') {
+            steps {
+                sh '''
+                sonar-scanner \
+                -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=${SONAR_HOST_URL} \
+                -Dsonar.token=${SONAR_TOKEN} \
+                -Dsonar.qualitygate.wait=true
+                '''
+            }
+        }
 
         stage('BUILD DOCKER IMAGE') {
             steps {
