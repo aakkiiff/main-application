@@ -33,24 +33,6 @@ pipeline {
         )
     }
 
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '3'))
-    }
-
-    triggers {
-        GenericTrigger(
-            genericVariables: [
-                [key: 'action',  value: '$.action'],
-                [key: 'base',    value: '$.pull_request.base.ref'],
-                [key: 'head',    value: '$.pull_request.head.ref'],
-                [key: 'success', value: '$.pull_request.merged']
-            ],
-            token: 'test',
-            regexpFilterText: '$action $base $head $success',
-            regexpFilterExpression: '^closed prod stage true$'
-        )
-    }
-
     stages {
 
         stage('SONARQUBE SCAN') {
