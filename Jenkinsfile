@@ -12,7 +12,7 @@ pipeline {
         PATH                    = "${SONAR_SCANNER_HOME}/bin:${PATH}"
         SONAR_HOST_URL          = "http://13.233.124.152:9000"
         SONAR_TOKEN             = "sqp_bb769152d29694ff6a2121164e449bb021ea4648"
-        SONAR_PROJECT_KEY        = "test"
+        SONAR_PROJECT_KEY       = "test"
     }
 
     options {
